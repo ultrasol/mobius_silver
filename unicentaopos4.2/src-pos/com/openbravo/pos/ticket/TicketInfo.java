@@ -564,6 +564,14 @@ public final class TicketInfo implements SerializableRead, Externalizable {
         return Formats.TIMESTAMP.formatValue(m_dDate);
     }
 
+    public String printDueDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(m_dDate);
+        cal.add(Calendar.DAY_OF_MONTH, 14);
+        
+        return Formats.TIMESTAMP.formatValue(cal.getTime());
+    }
+
     public String printUser() {
         return m_User == null ? "" : m_User.getName();
         
@@ -768,4 +776,7 @@ public final class TicketInfo implements SerializableRead, Externalizable {
         }
     }    
    
+    public String printStore() {
+        return printTicketHeaderLine1() + "\n" + printTicketHeaderLine2() + "\n" + printTicketHeaderLine3();
+    }
 }

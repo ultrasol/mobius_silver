@@ -1,0 +1,42 @@
+import java.util.*;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.engine.data.JRMapArrayDataSource;
+import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+
+List dataList = new ArrayList();
+for(int i = 0; i < ticket.getLinesCount(); i++) {
+    line = ticket.getLine(i);
+    map = new HashMap();
+    map.put("ITEM_NAME", line.getProductName());
+    map.put("PRICE", line.getPriceTax());
+    map.put("QTY", line.getMultiply());
+
+    dataList.add(map);
+}
+try {
+    //JasperDesign jd = JRXmlLoader.load(Object.class.getClass().getResourceAsStream("/com/openbravo/reports/sale-receipt-report.jrxml"));
+    //JasperReport jr = JasperCompileManager.compileReport(jd);
+    JasperReport jr = (JasperReport) JRLoader.loadObject(new java.io.File(Object.class.getClass().getResource("/com/openbravo/reports/sale-receipt-report.jrxml").toURI()));
+    JRDataSource data = new JRMapCollectionDataSource(dataList);
+
+    Map reportparams = new HashMap();
+    reportparams.put("STORE_NAME", ticket.printStore());
+    reportparams.put("CUSTOMER_NAME", ticket.getCustomer().printCustomer());
+    reportparams.put("DUE_DATE", ticket.printDueDate());
+    reportparams.put("INVOICE_NO", ticket.printId());
+    reportparams.put("SALES_MAN", ticket.printUser());
+    reportparams.put("BANK_DETAILS", "ZZZXXXYYY");
+    //reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(res));
+
+    JasperPrint jp = JasperFillManager.fillReport(jr, reportparams, data);
+    JasperPrintManager.printReport(jp, true);
+} catch (MissingResourceException e) {
+    msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotloadresourcedata"), e);
+    msg.show(this);
+} catch (Exception e) {
+    msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfillreport"), e);
+    msg.show(this);
+}

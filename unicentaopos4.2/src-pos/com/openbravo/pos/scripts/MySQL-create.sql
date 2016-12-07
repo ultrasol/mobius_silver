@@ -902,6 +902,7 @@ INSERT INTO resources(id, name, restype, content) VALUES('73', 'ticket.setline',
 INSERT INTO resources(id, name, restype, content) VALUES('74', 'Ticket.TicketLineTaxesIncluded', 0, $FILE{/com/openbravo/pos/templates/Ticket.TicketLineTaxesIncluded.xml});
 INSERT INTO resources(id, name, restype, content) VALUES('75', 'Window.Logo', 1, $FILE{/com/openbravo/pos/templates/window.logo.png});
 INSERT INTO resources(id, name, restype, content) VALUES('76', 'Window.Title', 0, $FILE{/com/openbravo/pos/templates/Window.Title.txt});
+INSERT INTO resources(id, name, restype, content) VALUES('77', 'script.SaleReceiptReport', 0, $FILE{/com/openbravo/pos/templates/script.SaleReceiptReport.txt});
 
 -- ADD CATEGORIES
 INSERT INTO categories(id, name) VALUES ('000', 'Category Standard');

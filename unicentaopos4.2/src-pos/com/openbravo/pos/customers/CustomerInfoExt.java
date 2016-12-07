@@ -441,5 +441,8 @@ public class CustomerInfoExt extends CustomerInfo {
         return Formats.CURRENCY.formatValue(RoundUtils.getValue(getDiscount()));
     }    
     
+    public String printCustomer() {
+        return printName() + "\n" + printAddress() + "\n" + printPhone();
+    }
     
 }

@@ -45,7 +45,8 @@
 	<!-- <button key="button.sendorder" image="img.kit_print" code="script.SendOrder"/>  -->
 
 	<!-- SET Ticket Print Preview (Default=ENABLED) -->
-    	<button key="button.print" image="img.ticket_print" template="Printer.TicketPreview"/>
+    	<!--<button key="button.print" image="img.ticket_print" template="Printer.TicketPreview"/>-->
+    	<button key="button.print" image="img.ticket_print" code="script.SaleReceiptReport"/>
 
 	<!-- SET Open Cashdrawer (Default=ENABLED) -->
 	<button key="button.opendrawer" image="img.cashdrawer" template="Printer.OpenDrawer"/>
