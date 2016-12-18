@@ -19,7 +19,9 @@
 
 package com.openbravo.pos.sales;
 
+import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.LocalRes;
+import com.openbravo.pos.classscripts.ClassScript;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppUser;
 import com.openbravo.pos.util.ThumbNailBuilder;
@@ -161,23 +163,39 @@ public class JPanelButtons extends javax.swing.JPanel {
                     JButton btn = new JButtonFunc(attributes.getValue("key"), 
                             attributes.getValue("image"), 
                             title);
-                    // The template resource or the code resource
-                    final String template = attributes.getValue("template");
-                    if (template == null) {
-                        final String code = attributes.getValue("code");
+                    
+                    final String classScript = attributes.getValue("classScript");
+                    if(classScript != null) {
                         btn.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent evt) {
-                                panelticket.evalScriptAndRefresh(code);
+                                try {
+                                    ClassScript cs = (ClassScript) Class.forName(classScript).newInstance();
+                                    cs.run(panelticket.getActiveTicket());
+                                } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+                                    new MessageInf(ex).show(JPanelButtons.this);
+                                }
                             }
                         });
                     } else {
-                        btn.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent evt) {
-                                panelticket.printTicket(template);
-                            }
-                        });     
+                        // The template resource or the code resource
+                        final String template = attributes.getValue("template");
+                        if (template == null) {
+                            final String code = attributes.getValue("code");
+                            btn.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent evt) {
+                                    panelticket.evalScriptAndRefresh(code);
+                                }
+                            });
+                        } else {
+                            btn.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent evt) {
+                                    panelticket.printTicket(template);
+                                }
+                            });     
+                        }
                     }
                     add(btn);
                     break;
